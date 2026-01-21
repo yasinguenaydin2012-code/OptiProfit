@@ -38,10 +38,9 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 
 ## Lokales Setup (Kurz)
 ```bash
-# Mobile App
-cd optiprofit-mobile
+# Mobile App (Expo laeuft vom Repo-Root)
 npm install
-npm run start
+npx expo start
 ```
 
 ```bash
