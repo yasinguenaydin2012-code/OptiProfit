@@ -10,6 +10,11 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 - Deterministische Berechnung (ohne Pfand)
 - Ergebnis-Karten + lokale Historie (AsyncStorage), offline-first
 
+## KI/Backend (geplant)
+- KI nur fuer Parsing + kurze Empfehlung, keine Zahlen erfinden
+- Kein API-Key in der App; Backend-Proxy ruft OpenAI auf
+- Prompts liegen in `prompts/`
+
 ## Ergebnisse (Auszug)
 - DB pro Einheit, Marge %, Gewinn je 100 Einheiten
 - Optional: WKZ pro Einheit + DB netto

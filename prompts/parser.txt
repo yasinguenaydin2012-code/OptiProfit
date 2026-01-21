@@ -1,0 +1,26 @@
+Output schema (always all keys):
+{
+  "item": "string|null",
+  "ek": 0,
+  "vk": 0,
+  "vkNormal": 0,
+  "wkzTotal": 0,
+  "menge": 0,
+  "notes": "string|null"
+}
+
+Rules:
+- If unknown: null (except menge defaults to 1).
+- Decimal separator in JSON is dot.
+- Do not include currency symbols.
+- notes is optional and must be 1-2 short sentences.
+
+Examples:
+Input: "Monster EK 0,89 VK 1,29"
+Output: {"item":"Monster","ek":0.89,"vk":1.29,"vkNormal":null,"wkzTotal":null,"menge":1,"notes":null}
+
+Input: "Kasten Wasser EK 3,90 Aktion 4,49 statt 4,99"
+Output: {"item":"Kasten Wasser","ek":3.90,"vk":4.49,"vkNormal":4.99,"wkzTotal":null,"menge":1,"notes":null}
+
+Input: "Red Bull EK 0,72 VK 1,19 WKZ 200 Menge 1000"
+Output: {"item":"Red Bull","ek":0.72,"vk":1.19,"vkNormal":null,"wkzTotal":200,"menge":1000,"notes":null}
