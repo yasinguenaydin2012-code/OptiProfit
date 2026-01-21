@@ -35,11 +35,14 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 - `backend/` Node/Express Proxy fuer KI-Parsing
 - `docs/` Source of Truth
 - `prompts/` KI Prompts
+- Root `App.tsx` dient als Expo Entry-Point (Workspaces).
 
 ## Lokales Setup (Kurz)
 ```bash
-# Mobile App (Expo laeuft vom Repo-Root)
+# Abhaengigkeiten (Workspaces)
 npm install
+
+# Mobile App (Expo laeuft vom Repo-Root)
 npx expo start
 ```
 
@@ -52,3 +55,8 @@ OPENAI_API_KEY=... npm run dev
 
 Optional in der App:
 `EXPO_PUBLIC_AI_PARSE_URL=http://<mac-ip>:3001/parse`
+
+## Android (lokal)
+```bash
+npx expo run:android
+```
