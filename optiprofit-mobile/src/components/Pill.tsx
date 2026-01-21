@@ -1,5 +1,7 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 
+import { colors, fonts } from "../theme";
+
 type PillProps = {
   label: string;
   onPress?: () => void;
@@ -16,7 +18,14 @@ export function Pill({ label, onPress, tone = "muted" }: PillProps) {
         pressed && styles.pressed,
       ]}
     >
-      <Text style={styles.label}>{label}</Text>
+      <Text
+        style={[
+          styles.label,
+          tone === "primary" ? styles.labelPrimary : styles.labelMuted,
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -29,16 +38,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   primary: {
-    backgroundColor: "#0f8b8d",
-    borderColor: "#0f8b8d",
+    backgroundColor: colors.accentDeep,
+    borderColor: colors.accentDeep,
   },
   muted: {
-    backgroundColor: "#f7efe4",
-    borderColor: "#d5c8b6",
+    backgroundColor: colors.cardAlt,
+    borderColor: colors.border,
   },
   label: {
     fontSize: 13,
-    color: "#1f1b16",
+    fontFamily: fonts.body,
+    letterSpacing: 0.2,
+  },
+  labelPrimary: {
+    color: colors.badgeText,
+  },
+  labelMuted: {
+    color: colors.ink,
   },
   pressed: {
     opacity: 0.7,

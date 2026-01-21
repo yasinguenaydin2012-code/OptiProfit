@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import { Row } from "./Row";
+import { cardShadow, colors, fonts } from "../theme";
 
 type ResultLine = {
   label: string;
@@ -40,43 +41,40 @@ export function ResultCard({
 
 const stylesTone = StyleSheet.create({
   good: {
-    borderColor: "#1aa179",
+    borderColor: colors.good,
   },
   warn: {
-    borderColor: "#d36b1e",
+    borderColor: colors.warn,
   },
   neutral: {
-    borderColor: "#d5c8b6",
+    borderColor: colors.border,
   },
 });
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 18,
-    backgroundColor: "#fffaf2",
+    borderRadius: 20,
+    backgroundColor: colors.card,
     padding: 16,
     borderWidth: 1,
     marginBottom: 14,
-    shadowColor: "#1f1b16",
-    shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 6 },
-    shadowRadius: 16,
-    elevation: 3,
+    ...cardShadow,
   },
   title: {
     fontSize: 16,
-    color: "#1f1b16",
-    fontWeight: "700",
+    color: colors.ink,
+    fontFamily: fonts.title,
     letterSpacing: 0.2,
   },
   subtitle: {
     marginTop: 4,
     fontSize: 12,
-    color: "#6b645c",
+    color: colors.inkMuted,
+    fontFamily: fonts.body,
   },
   divider: {
     height: 1,
-    backgroundColor: "#eadfce",
+    backgroundColor: colors.borderSoft,
     marginVertical: 10,
   },
 });

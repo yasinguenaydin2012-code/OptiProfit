@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "optiprofit",
+    "slug": "optiprofit",
+    "version": "0.1.0",
+    "sdkVersion": "50.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "android": {
+      "package": "com.yasin84.optiprofit"
+    }
+  }
+}

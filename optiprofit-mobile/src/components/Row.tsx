@@ -1,5 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
+import { colors, fonts } from "../theme";
+
 type RowProps = {
   label: string;
   value: string;
@@ -23,16 +25,17 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
   },
   label: {
-    fontSize: 13,
-    color: "#5b5a57",
+    fontSize: 12,
+    color: colors.inkMuted,
+    fontFamily: fonts.body,
     letterSpacing: 0.2,
   },
   value: {
     fontSize: 14,
-    color: "#1e1c17",
+    color: colors.ink,
+    fontFamily: fonts.title,
   },
   valueStrong: {
-    fontWeight: "700",
-    color: "#0f8b8d",
+    color: colors.accentDeep,
   },
 });

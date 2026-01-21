@@ -29,3 +29,27 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 - "Monster EK 0,89 VK 1,29"
 - "Kasten Wasser EK 3,90 Aktion 4,49 statt 4,99"
 - "Red Bull EK 0,72 VK 1,19 WKZ 200 Menge 1000"
+
+## Repo Struktur
+- `optiprofit-mobile/` Expo App
+- `backend/` Node/Express Proxy fuer KI-Parsing
+- `docs/` Source of Truth
+- `prompts/` KI Prompts
+
+## Lokales Setup (Kurz)
+```bash
+# Mobile App
+cd optiprofit-mobile
+npm install
+npm run start
+```
+
+```bash
+# Backend (separates Terminal)
+cd backend
+npm install
+OPENAI_API_KEY=... npm run dev
+```
+
+Optional in der App:
+`EXPO_PUBLIC_AI_PARSE_URL=http://<mac-ip>:3001/parse`
