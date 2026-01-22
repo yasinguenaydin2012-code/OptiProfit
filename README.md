@@ -8,12 +8,14 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 ## MVP (Kurz)
 - Textinput (Chat-Style), Parser extrahiert item, EK, VK, optional VK_normal, WKZ_total, Menge
 - Deterministische Berechnung (ohne Pfand)
-- Ergebnis-Karten + lokale Historie (AsyncStorage), offline-first
+- Schnellstart-Beispiele + Ergebnis-Karten
+- Lokale Historie (AsyncStorage) mit Loeschfunktion, offline-first
 
 ## KI/Backend (geplant)
 - KI nur fuer Parsing + kurze Empfehlung, keine Zahlen erfinden
 - Kein API-Key in der App; Backend-Proxy ruft OpenAI auf
 - Prompts liegen in `prompts/`
+- MVP laeuft komplett lokal/offline; Backend ist optional fuer Parsing
 
 ## Ergebnisse (Auszug)
 - DB pro Einheit, Marge %, Gewinn je 100 Einheiten
@@ -43,14 +45,14 @@ EK/VK (optional Aktion, WKZ, Menge) eingeben, sofort DB/Marge und die bessere Op
 npm install
 
 # Mobile App (Expo laeuft vom Repo-Root)
-npx expo start
+npm run mobile
+# alternativ:
+# npx expo start
 ```
 
 ```bash
-# Backend (separates Terminal)
-cd backend
-npm install
-OPENAI_API_KEY=... npm run dev
+# Backend (separates Terminal, optional)
+OPENAI_API_KEY=... npm run backend
 ```
 
 Optional in der App:

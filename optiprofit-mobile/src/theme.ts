@@ -1,22 +1,22 @@
 import { Platform } from "react-native";
 
 export const colors = {
-  bg: "#f4ede3",
-  card: "#fff8ee",
-  cardAlt: "#fff1e2",
-  ink: "#1c1a15",
-  inkMuted: "#6b5f51",
-  accent: "#e4572e",
-  accentDeep: "#0f7b73",
-  accentSoft: "#ffd7b7",
-  border: "#e2d2c0",
-  borderSoft: "#eadfce",
-  good: "#1a936f",
-  warn: "#d36b1e",
-  shadow: "#201a16",
-  inputBg: "#fffdf8",
-  badgeBg: "#1c1a15",
-  badgeText: "#fff8ee",
+  bg: "#f5f7fb",
+  card: "#ffffff",
+  cardAlt: "#eef2f7",
+  ink: "#101828",
+  inkMuted: "#475467",
+  accent: "#2563eb",
+  accentDeep: "#1e40af",
+  accentSoft: "#dbeafe",
+  border: "#e2e8f0",
+  borderSoft: "#edf2f7",
+  good: "#1f7a4d",
+  warn: "#b45309",
+  shadow: "#0f172a",
+  inputBg: "#f8fafc",
+  badgeBg: "#0f172a",
+  badgeText: "#ffffff",
 };
 
 export const fonts = {

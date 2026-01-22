@@ -181,11 +181,15 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.bg}>
+        <View style={styles.bgWash} />
         <View style={styles.bgHaloOne} />
         <View style={styles.bgHaloTwo} />
         <View style={styles.bgHaloThree} />
-        <View style={styles.bgRing} />
-        <View style={styles.bgStripe} />
+        <View style={styles.bgGridVertical} />
+        <View style={styles.bgGridVerticalTwo} />
+        <View style={styles.bgGridHorizontal} />
+        <View style={styles.bgGridHorizontalTwo} />
+        <View style={styles.bgTape} />
       </View>
 
       <ScrollView
@@ -195,21 +199,27 @@ export default function HomeScreen() {
         <Animated.View style={[styles.header, animatedStyle(headerAnim)]}>
           <View style={styles.kickerRow}>
             <View style={styles.kickerDot} />
-            <Text style={styles.kickerText}>Pricing Copilot</Text>
+            <Text style={styles.kickerText}>Live Pricing Desk</Text>
+            <View style={styles.kickerBadge}>
+              <Text style={styles.kickerBadgeText}>MVP</Text>
+            </View>
           </View>
           <Text style={styles.brand}>OptiProfit AI</Text>
           <Text style={styles.tagline}>
-            Preischeck in Sekunden. Klarer DB, sichere Entscheidung.
+            Preispruefung direkt am Regal. EK/VK rein, DB raus.
           </Text>
-          <View style={styles.metaRow}>
-            <View style={styles.metaPill}>
-              <Text style={styles.metaText}>EK/VK Parser</Text>
+          <View style={styles.heroRow}>
+            <View style={[styles.heroCard, styles.heroCardPrimary]}>
+              <Text style={styles.heroValue}>DB</Text>
+              <Text style={styles.heroLabel}>pro Einheit</Text>
             </View>
-            <View style={styles.metaPill}>
-              <Text style={styles.metaText}>Aktionen + WKZ</Text>
+            <View style={styles.heroCard}>
+              <Text style={styles.heroValue}>WKZ</Text>
+              <Text style={styles.heroLabel}>Bonus netto</Text>
             </View>
-            <View style={styles.metaPill}>
-              <Text style={styles.metaText}>Marge live</Text>
+            <View style={styles.heroCard}>
+              <Text style={styles.heroValue}>BE</Text>
+              <Text style={styles.heroLabel}>Break-even</Text>
             </View>
           </View>
         </Animated.View>
@@ -223,19 +233,22 @@ export default function HomeScreen() {
               </Text>
             </View>
             <View style={styles.sectionTag}>
-              <Text style={styles.sectionTagText}>Live</Text>
+              <Text style={styles.sectionTagText}>Offline</Text>
             </View>
           </View>
-          <TextInput
-            style={styles.input}
-            placeholder="z.B. Monster EK 0,89 VK 1,29"
-            placeholderTextColor={colors.inkMuted}
-            value={input}
-            onChangeText={setInput}
-            onSubmitEditing={() => handleCheck(input)}
-            returnKeyType="done"
-            multiline
-          />
+          <View style={styles.inputShell}>
+            <Text style={styles.inputLabel}>Eingabe</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="z.B. Monster EK 0,89 VK 1,29"
+              placeholderTextColor={colors.inkMuted}
+              value={input}
+              onChangeText={setInput}
+              onSubmitEditing={() => handleCheck(input)}
+              returnKeyType="done"
+              multiline
+            />
+          </View>
           <View style={styles.actionRow}>
             <Pressable
               onPress={() => handleCheck(input)}
@@ -249,16 +262,27 @@ export default function HomeScreen() {
             <Text style={styles.actionHint}>Enter oder Tap</Text>
           </View>
           {parsedSummary ? (
-            <Text style={styles.parsedText}>{parsedSummary}</Text>
+            <View style={styles.parsedPill}>
+              <Text style={styles.parsedText}>{parsedSummary}</Text>
+            </View>
           ) : null}
-          {notice ? <Text style={styles.notice}>{notice}</Text> : null}
+          {notice ? (
+            <View style={styles.noticeBox}>
+              <Text style={styles.notice}>{notice}</Text>
+            </View>
+          ) : null}
         </Animated.View>
 
         <Animated.View style={[styles.examples, animatedStyle(cardAnim)]}>
           <View style={styles.sectionHeader}>
             <View>
               <Text style={styles.sectionTitle}>Schnellstart</Text>
-              <Text style={styles.sectionHint}>Tap zum Einfuegen.</Text>
+              <Text style={styles.sectionHint}>
+                Tap zum Einfuegen, sofort rechnen.
+              </Text>
+            </View>
+            <View style={styles.sectionBadgeMuted}>
+              <Text style={styles.sectionBadgeMutedText}>3 Beispiele</Text>
             </View>
           </View>
           <View style={styles.pillRow}>
@@ -278,6 +302,14 @@ export default function HomeScreen() {
 
         {result ? (
           <Animated.View style={[styles.results, animatedStyle(cardAnim)]}>
+            <View style={styles.resultsHeader}>
+              <View>
+                <Text style={styles.sectionTitle}>Auswertung</Text>
+                <Text style={styles.sectionHint}>
+                  Deterministisch, ohne KI-Rechnung.
+                </Text>
+              </View>
+            </View>
             <ResultCard
               title="Ergebnis"
               subtitle={recommendation ?? "Berechnung abgeschlossen."}
@@ -352,7 +384,12 @@ export default function HomeScreen() {
 
         <Animated.View style={[styles.historyCard, animatedStyle(cardAnim)]}>
           <View style={styles.historyHeader}>
-            <Text style={styles.sectionTitle}>Historie</Text>
+            <View>
+              <Text style={styles.sectionTitle}>Historie</Text>
+              <Text style={styles.sectionHint}>
+                Letzte Checks, lokal gespeichert.
+              </Text>
+            </View>
             <Pressable
               onPress={handleClearHistory}
               disabled={historyBusy}
@@ -370,12 +407,17 @@ export default function HomeScreen() {
               Noch keine Checks gespeichert.
             </Text>
           ) : (
-            history.slice(0, 3).map((entry) => (
+            history.slice(0, 3).map((entry, index) => (
               <View key={entry.id} style={styles.historyItem}>
-                <Text style={styles.historyInput}>{entry.input}</Text>
-                <Text style={styles.historyMeta}>
-                  {formatDate(entry.created_at)}
-                </Text>
+                <View style={styles.historyBody}>
+                  <Text style={styles.historyInput}>{entry.input}</Text>
+                  <Text style={styles.historyMeta}>
+                    {formatDate(entry.created_at)}
+                  </Text>
+                </View>
+                <View style={styles.historyBadge}>
+                  <Text style={styles.historyBadgeText}>{`#${index + 1}`}</Text>
+                </View>
               </View>
             ))
           )}
@@ -393,60 +435,92 @@ const styles = StyleSheet.create({
   bg: {
     ...StyleSheet.absoluteFillObject,
   },
+  bgWash: {
+    position: "absolute",
+    top: -120,
+    left: -40,
+    right: -40,
+    height: 320,
+    borderRadius: 260,
+    backgroundColor: colors.cardAlt,
+    opacity: 0.55,
+  },
   bgHaloOne: {
     position: "absolute",
-    top: -180,
-    right: -140,
-    width: 360,
-    height: 360,
-    borderRadius: 180,
+    top: -200,
+    right: -160,
+    width: 380,
+    height: 380,
+    borderRadius: 190,
     backgroundColor: colors.accentSoft,
-    opacity: 0.6,
+    opacity: 0.55,
   },
   bgHaloTwo: {
     position: "absolute",
-    left: -160,
+    left: -180,
     top: 120,
-    width: 320,
-    height: 320,
-    borderRadius: 160,
+    width: 340,
+    height: 340,
+    borderRadius: 170,
     backgroundColor: colors.good,
-    opacity: 0.18,
+    opacity: 0.16,
   },
   bgHaloThree: {
     position: "absolute",
-    right: -120,
-    bottom: -150,
-    width: 300,
-    height: 300,
-    borderRadius: 150,
+    right: -140,
+    bottom: -160,
+    width: 320,
+    height: 320,
+    borderRadius: 160,
     backgroundColor: colors.accent,
-    opacity: 0.18,
+    opacity: 0.14,
   },
-  bgRing: {
+  bgGridVertical: {
     position: "absolute",
-    top: 36,
-    left: -24,
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 2,
-    borderColor: "rgba(28,26,21,0.08)",
+    top: 0,
+    bottom: 0,
+    left: "18%",
+    width: 1,
+    backgroundColor: "rgba(28,26,21,0.08)",
   },
-  bgStripe: {
+  bgGridVerticalTwo: {
     position: "absolute",
-    top: 260,
-    right: -40,
-    width: 140,
-    height: 140,
-    borderRadius: 32,
+    top: 0,
+    bottom: 0,
+    right: "22%",
+    width: 1,
+    backgroundColor: "rgba(28,26,21,0.06)",
+  },
+  bgGridHorizontal: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: "36%",
+    height: 1,
+    backgroundColor: "rgba(28,26,21,0.07)",
+  },
+  bgGridHorizontalTwo: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: "18%",
+    height: 1,
+    backgroundColor: "rgba(28,26,21,0.05)",
+  },
+  bgTape: {
+    position: "absolute",
+    top: 220,
+    right: -80,
+    width: 220,
+    height: 70,
+    borderRadius: 26,
     backgroundColor: colors.cardAlt,
-    opacity: 0.6,
-    transform: [{ rotate: "12deg" }],
+    opacity: 0.8,
+    transform: [{ rotate: "16deg" }],
   },
   scroll: {
     paddingHorizontal: 22,
-    paddingTop: 12,
+    paddingTop: 18,
     paddingBottom: 52,
   },
   header: {
@@ -458,9 +532,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   kickerDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
     backgroundColor: colors.accent,
   },
   kickerText: {
@@ -470,12 +544,25 @@ const styles = StyleSheet.create({
     color: colors.inkMuted,
     fontFamily: fonts.title,
   },
+  kickerBadge: {
+    borderRadius: 999,
+    backgroundColor: colors.badgeBg,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  kickerBadgeText: {
+    fontSize: 9,
+    textTransform: "uppercase",
+    letterSpacing: 1.4,
+    color: colors.badgeText,
+    fontFamily: fonts.title,
+  },
   brand: {
     marginTop: 6,
-    fontSize: 34,
+    fontSize: 36,
     color: colors.ink,
     fontFamily: fonts.display,
-    letterSpacing: 0.4,
+    letterSpacing: 0.6,
   },
   tagline: {
     marginTop: 6,
@@ -484,30 +571,42 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     fontFamily: fonts.body,
   },
-  metaRow: {
-    marginTop: 12,
+  heroRow: {
+    marginTop: 16,
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 10,
   },
-  metaPill: {
-    borderRadius: 999,
+  heroCard: {
+    flexGrow: 1,
+    minWidth: 96,
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.card,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
   },
-  metaText: {
+  heroCardPrimary: {
+    borderColor: colors.accentDeep,
+    backgroundColor: colors.accentSoft,
+  },
+  heroValue: {
+    fontSize: 16,
+    color: colors.ink,
+    fontFamily: fonts.title,
+    letterSpacing: 0.3,
+  },
+  heroLabel: {
+    marginTop: 2,
     fontSize: 11,
     color: colors.inkMuted,
     fontFamily: fonts.body,
-    letterSpacing: 0.3,
   },
   inputCard: {
     backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 16,
+    borderRadius: 26,
+    padding: 18,
     borderWidth: 1,
     borderColor: colors.border,
     marginBottom: 18,
@@ -532,31 +631,57 @@ const styles = StyleSheet.create({
     fontFamily: fonts.body,
   },
   sectionTag: {
-    backgroundColor: colors.accentSoft,
+    backgroundColor: colors.cardAlt,
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 4,
   },
   sectionTagText: {
     fontSize: 10,
-    color: colors.accent,
+    color: colors.ink,
     fontFamily: fonts.title,
     letterSpacing: 0.8,
     textTransform: "uppercase",
   },
-  input: {
+  sectionBadgeMuted: {
+    backgroundColor: colors.accentSoft,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  sectionBadgeMutedText: {
+    fontSize: 10,
+    color: colors.inkMuted,
+    fontFamily: fonts.title,
+    letterSpacing: 0.6,
+    textTransform: "uppercase",
+  },
+  inputShell: {
     marginTop: 12,
-    minHeight: 86,
     borderRadius: 18,
     borderWidth: 1,
     borderColor: colors.border,
+    backgroundColor: colors.inputBg,
     paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingVertical: 10,
+  },
+  inputLabel: {
+    fontSize: 10,
+    textTransform: "uppercase",
+    letterSpacing: 1.4,
+    color: colors.inkMuted,
+    fontFamily: fonts.title,
+  },
+  input: {
+    marginTop: 6,
+    minHeight: 90,
     fontSize: 14,
     color: colors.ink,
-    backgroundColor: colors.inputBg,
     fontFamily: fonts.body,
     lineHeight: 20,
+    textAlignVertical: "top",
   },
   actionRow: {
     marginTop: 12,
@@ -586,19 +711,42 @@ const styles = StyleSheet.create({
     fontFamily: fonts.body,
   },
   parsedText: {
-    marginTop: 10,
     fontSize: 12,
     color: colors.inkMuted,
     fontFamily: fonts.body,
   },
-  notice: {
+  parsedPill: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.cardAlt,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  noticeBox: {
     marginTop: 8,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.warn,
+    backgroundColor: colors.accentSoft,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  notice: {
     fontSize: 12,
     color: colors.warn,
     fontFamily: fonts.body,
   },
   examples: {
     marginBottom: 18,
+    padding: 14,
+    borderRadius: 20,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.border,
+    ...cardShadow,
   },
   pillRow: {
     marginTop: 10,
@@ -609,9 +757,12 @@ const styles = StyleSheet.create({
   results: {
     marginBottom: 10,
   },
+  resultsHeader: {
+    marginBottom: 8,
+  },
   historyCard: {
-    marginTop: 6,
-    padding: 14,
+    marginTop: 10,
+    padding: 16,
     backgroundColor: colors.card,
     borderRadius: 20,
     borderWidth: 1,
@@ -623,6 +774,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 8,
+    gap: 12,
   },
   clearButton: {
     borderRadius: 999,
@@ -650,9 +802,16 @@ const styles = StyleSheet.create({
     fontFamily: fonts.body,
   },
   historyItem: {
-    paddingVertical: 10,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderSoft,
+  },
+  historyBody: {
+    flex: 1,
   },
   historyInput: {
     fontSize: 13,
@@ -664,5 +823,19 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: colors.inkMuted,
     fontFamily: fonts.body,
+  },
+  historyBadge: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.cardAlt,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  historyBadgeText: {
+    fontSize: 10,
+    color: colors.inkMuted,
+    fontFamily: fonts.title,
+    letterSpacing: 0.4,
   },
 });
